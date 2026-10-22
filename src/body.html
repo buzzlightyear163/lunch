@@ -1,0 +1,372 @@
+<header class="site-head">
+  <div class="wrap head-row">
+    <a class="brand" href="#top" aria-label="LUNCH home">
+      <svg viewBox="0 0 64 64" aria-hidden="true"><rect x="6" y="13" width="52" height="10" rx="1" fill="#efe8db"/><path d="M7 27H43A4.2 4.2 0 0 0 43 32A4.2 4.2 0 0 0 43 37H7A1 1 0 0 1 6 36V28A1 1 0 0 1 7 27Z" fill="#e6492f"/><rect x="6" y="41" width="52" height="10" rx="1" fill="#efe8db"/></svg>
+      <b>LUNCH</b>
+    </a>
+    <nav class="nav" aria-label="Sections">
+      <a href="#attack">How it works</a>
+      <a href="#check">Check</a>
+      <a href="#tuner">Tuner</a>
+      <a href="#exposure">Evidence</a>
+      <a href="#monitor">Monitor</a>
+      <a href="#token">$LUNCH</a>
+    </nav>
+    <div class="head-right">
+      <button class="ca-chip" id="caChip" type="button" aria-label="Copy contract address">
+        <span class="label lbl">CA</span><span class="mono" id="caChipText">—</span>
+      </button>
+      <a class="icon-btn" id="xLink" href="#" target="_blank" rel="noopener" aria-label="LUNCH on X" hidden><span class="mono" style="font-size:12px">X</span></a>
+      <a class="btn btn-primary btn-sm" id="buyLink" href="#" target="_blank" rel="noopener" hidden>Buy $LUNCH</a>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="hero-glow" aria-hidden="true"></div>
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <div class="label eyebrow">Sandwich-attack scanner · pump.fun &amp; PumpSwap</div>
+        <h1><span class="line"><span>Bots ate</span></span><span class="line"><span>your</span></span><span class="line"><span class="bitten">lunch.</span></span></h1>
+      </div>
+
+      <div class="hero-art" aria-hidden="true">
+        <canvas id="heroCanvas"></canvas>
+        <svg class="art-fallback" viewBox="0 0 64 64"><rect x="6" y="13" width="52" height="10" rx="1" fill="#efe8db"/><path d="M7 27H43A4.2 4.2 0 0 0 43 32A4.2 4.2 0 0 0 43 37H7A1 1 0 0 1 6 36V28A1 1 0 0 1 7 27Z" fill="#e6492f"/><rect x="6" y="41" width="52" height="10" rx="1" fill="#efe8db"/></svg>
+        <div class="hero-legend">
+          <span class="label"><i style="--c:var(--bone)"></i>Bot buys before you</span>
+          <span class="label"><i style="--c:var(--red)"></i>Your trade</span>
+          <span class="label"><i style="--c:var(--bone)"></i>Bot sells after you</span>
+        </div>
+        <span class="scroll-cue label">Scroll</span>
+      </div>
+
+      <div class="hero-body">
+        <p class="lead">A sandwich bot buys right before your trade and sells right after it, so you pay more and it keeps the difference. LUNCH finds every time it happened to your wallet, shows what it cost you, and tunes your slippage so it stops.</p>
+
+        <form class="check-form" id="checkForm" novalidate>
+          <label class="sr" for="walletInput" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Solana wallet address</label>
+          <input class="input" id="walletInput" name="wallet" autocomplete="off" spellcheck="false" placeholder="Paste a Solana wallet address">
+          <button class="btn btn-primary" id="checkBtn" type="submit">Check my lunch <span class="arrow" aria-hidden="true">→</span></button>
+          <div class="form-meta">
+            <span class="label">Read-only. Runs in your browser. Nothing to connect, nothing to sign.</span>
+            <span class="depth"><label class="label" for="depthSel">Scan</label>
+              <select class="input" id="depthSel">
+                <option value="25">last 25 tx</option>
+                <option value="50" selected>last 50 tx</option>
+                <option value="100">last 100 tx</option>
+              </select></span>
+          </div>
+          <div class="form-error" id="checkErr" role="alert"></div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <section class="stats" aria-label="Sandwich attacks on Solana">
+    <div class="wrap" style="padding-left:0;padding-right:0">
+      <div class="stats-grid">
+        <div class="stat"><span class="v num" data-count="6.85" data-dec="2" data-suf="M">6.85M</span><p>sandwich attacks detected on Solana in 11 months</p></div>
+        <div class="stat"><span class="v num" data-count="2154994" data-dec="0">2,154,994</span><p>different wallets hit by at least one</p></div>
+        <div class="stat"><span class="v red num" data-count="96" data-dec="0" data-suf="%">96%</span><p>of attacks landed on pump.fun's curve or PumpSwap</p></div>
+        <div class="stat"><span class="v num" data-count="309010" data-dec="0">309,010</span><p>SOL taken by 2,545 bot wallets, before their costs</p></div>
+      </div>
+      <div class="stats-src">
+        <span class="label">Bitquery study, 30 Oct 2025 – 7 Oct 2026</span>
+        <a class="label" href="https://cryptoslate.com/solana-sandwich-bots-took-29-7-million-before-costs-bitquery-estimates/" target="_blank" rel="noopener">Source: CryptoSlate ↗</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="attack" id="attack" aria-labelledby="atkTitle">
+    <div class="atk-sticky">
+      <div class="wrap atk-grid">
+        <div class="atk-copy">
+          <div class="label eyebrow">Anatomy of a sandwich</div>
+          <h2 class="atk-title" id="atkTitle">One block. <span>Three trades.</span></h2>
+          <ol class="atk-steps">
+            <li class="atk-step on"><span class="n mono">01</span><div><h3>You hit buy.</h3><p>1.00 SOL into a pump.fun coin with slippage at 15%. The quote says 21.46M tokens. Your transaction waits for a spot in the next block.</p></div></li>
+            <li class="atk-step"><span class="n mono">02</span><div><h3>A bot gets there first.</h3><p>It sees your buy and lands 2.00 SOL of the same coin one position ahead of you. The price jumps 10.2%, still inside your 15%.</p></div></li>
+            <li class="atk-step"><span class="n mono">03</span><div><h3>You fill at its price.</h3><p>Your 1.00 SOL now buys 19.49M tokens, 9.2% fewer than quoted. It is inside your slippage, so the trade goes through.</p></div></li>
+            <li class="atk-step"><span class="n mono">04</span><div><h3>It sells straight into you.</h3><p>One position later the bot dumps everything and keeps 0.094 SOL. That came out of your trade.</p></div></li>
+          </ol>
+          <div class="atk-read">
+            <div><span class="label">Price vs quote</span><b class="num" id="atkPrice">+0.0%</b></div>
+            <div><span class="label">Your tokens</span><b class="num" id="atkTokens">21.46M</b></div>
+            <div><span class="label">Bot profit</span><b class="num red" id="atkProfit">+0.000 SOL</b></div>
+          </div>
+          <svg class="atk-chart" viewBox="0 0 300 92" aria-hidden="true">
+            <line class="atk-base" x1="0" x2="300" y1="78" y2="78"/>
+            <text class="atk-ax" x="0" y="91">quote</text>
+            <text class="atk-ax" x="75" y="91" text-anchor="middle">bot buy</text>
+            <text class="atk-ax" x="150" y="91" text-anchor="middle">you</text>
+            <text class="atk-ax" x="225" y="91" text-anchor="middle">bot sell</text>
+            <path id="atkLine" class="atk-line" d="M0 78H300"/>
+            <circle class="atk-dot red-dot" cx="75" cy="78" r="4"/>
+            <circle class="atk-dot bone-dot" cx="150" cy="78" r="4"/>
+            <circle class="atk-dot red-dot" cx="225" cy="78" r="4"/>
+          </svg>
+          <p class="atk-note">Illustration on a pump.fun bonding curve holding 10 SOL. Same math LUNCH uses to price your real losses.</p>
+        </div>
+        <div class="atk-art">
+          <canvas id="attackCanvas" aria-hidden="true"></canvas>
+          <svg class="art-fallback" viewBox="0 0 64 64" aria-hidden="true"><rect x="6" y="13" width="52" height="10" rx="1" fill="#e6492f"/><rect x="6" y="27" width="52" height="10" rx="1" fill="#efe8db"/><rect x="6" y="41" width="52" height="10" rx="1" fill="#e6492f"/></svg>
+          <div class="atk-count mono" aria-hidden="true"><span id="atkCount">01</span><span class="of">/04</span></div>
+          <div class="atk-railwrap" aria-hidden="true"><i id="atkRail"></i></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="check">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <div>
+          <div class="label eyebrow">Diagnose</div>
+          <h2>Lunch Check</h2>
+        </div>
+        <p class="lead">Every swap you made on pump.fun or PumpSwap, checked against the transactions around it in the same block. Each hit links to the three transactions on Solscan, so you can verify it yourself.</p>
+      </div>
+      <div class="report-wrap reveal" id="reportWrap"></div>
+
+      <details class="rpc-set" id="rpcSet">
+        <summary class="label">RPC endpoint</summary>
+        <div class="rpc-body">
+          <input class="input" id="rpcInput" autocomplete="off" spellcheck="false" placeholder="https://api.mainnet-beta.solana.com">
+          <button class="btn btn-ghost btn-sm" id="rpcSave" type="button" style="height:52px">Save</button>
+          <button class="btn btn-ghost btn-sm" id="rpcReset" type="button" style="height:52px">Use public</button>
+          <p>LUNCH reads public Solana RPC by default. It is free and rate-limited, so scans take a while. Paste your own endpoint (Helius, QuickNode, Triton) to make every tool faster. It is stored in this browser only.</p>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <section class="section" id="tuner">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <div>
+          <div class="label eyebrow">Fix</div>
+          <h2>Slippage Tuner</h2>
+        </div>
+        <p class="lead">Slippage is how far you let the price move before your trade fails. Set it high and a bot has room to push the price up to that limit. The tuner reads the coin's latest trades and finds the tightest setting that still lands.</p>
+      </div>
+      <div class="panel tuner reveal">
+        <form class="tuner-form" id="tunerForm" novalidate>
+          <div class="field">
+            <label for="tMint">Token CA</label>
+            <input class="input" id="tMint" autocomplete="off" spellcheck="false" placeholder="Paste a pump.fun token address">
+          </div>
+          <div class="row2">
+            <div class="field">
+              <label for="tSize">Trade size (SOL)</label>
+              <input class="input num" id="tSize" inputmode="decimal" value="0.5">
+            </div>
+            <div class="field">
+              <label for="tCur">Your slippage now (%)</label>
+              <input class="input num" id="tCur" inputmode="decimal" value="20">
+            </div>
+          </div>
+          <div class="field">
+            <label id="tSideLbl">Side</label>
+            <div class="seg" role="group" aria-labelledby="tSideLbl">
+              <button type="button" id="tBuy" aria-pressed="true">Buy</button>
+              <button type="button" id="tSell" aria-pressed="false">Sell</button>
+            </div>
+          </div>
+          <button class="btn btn-primary" id="tunerBtn" type="submit">Tune slippage <span class="arrow" aria-hidden="true">→</span></button>
+          <div class="form-error" id="tunerErr" role="alert"></div>
+        </form>
+        <div class="tuner-out" id="tunerOut"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="exposure">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <div>
+          <div class="label eyebrow">Evidence</div>
+          <h2>High slippage gets eaten.</h2>
+        </div>
+        <p class="lead">How often a swap was sandwiched, by the slippage the trader allowed. The safest band was 1–3%. Above 10%, the hit rate climbs fast.</p>
+      </div>
+      <div class="panel exposure reveal">
+        <div class="chart">
+          <div class="chart-axis" aria-hidden="true"><span class="label" style="left:0">0</span><span class="label" style="left:25%">40</span><span class="label" style="left:50%">80</span><span class="label" style="left:75%">120</span><span class="label" style="left:100%">160</span></div>
+          <div id="barChart" role="img" aria-label="Sandwiched swaps per 10,000 by slippage setting"></div>
+          <p class="chart-foot">Sandwiched swaps per 10,000 Jupiter swaps routed through pump.fun's curve or PumpSwap, 30 Oct 2025 – 7 Oct 2026. Observational data from Bitquery. <a href="https://cryptoslate.com/solana-sandwich-bots-took-29-7-million-before-costs-bitquery-estimates/" target="_blank" rel="noopener">Source ↗</a></p>
+        </div>
+        <div class="insight">
+          <div>
+            <span class="label">20–50% slippage vs 1–3%</span>
+            <div class="big num" data-count="18" data-dec="0" data-suf="×">18×</div>
+          </div>
+          <p>Swaps that allowed 20–50% slippage were sandwiched about 18 times as often as swaps at 1–3%. That is 148 versus 8 per 10,000.</p>
+          <a class="btn btn-ghost" href="#tuner">Tune my slippage <span class="arrow" aria-hidden="true">→</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="monitor">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <div>
+          <div class="label eyebrow">Live · beta</div>
+          <h2>Sandwiches as they land.</h2>
+        </div>
+        <p class="lead">The monitor pulls the newest Solana block every few seconds, replays every pump.fun and PumpSwap trade inside it, and flags each sandwich it finds. Real blocks, sampled, nothing simulated.</p>
+      </div>
+      <div class="panel monitor reveal">
+        <div class="mon-side">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
+            <span class="badge" id="monBadge">Off</span>
+            <button class="btn btn-primary btn-sm" id="monBtn" type="button">Start monitor</button>
+          </div>
+          <div class="mon-counters">
+            <div><span class="label">Blocks read</span><b class="num" id="mBlocks">0</b></div>
+            <div><span class="label">Swaps checked</span><b class="num" id="mSwaps">0</b></div>
+            <div><span class="label">Sandwiches</span><b class="num red" id="mHits">0</b></div>
+            <div><span class="label">SOL taken (est.)</span><b class="num" id="mSol">0</b></div>
+          </div>
+          <div>
+            <span class="label">pump.fun swaps per block</span>
+            <div class="spark" id="mSpark" style="margin-top:10px" aria-hidden="true"></div>
+          </div>
+          <p class="tuner-note">Downloads full blocks, so it uses a few MB per minute. It pauses when you leave the tab.</p>
+        </div>
+        <div class="mon-feed">
+          <span class="label">Detected this session</span>
+          <div class="feed" id="mFeed">
+            <div class="feed-empty" id="mEmpty"><b>Nothing scanned yet.</b><span>Start the monitor to read live blocks. Roughly one in ten blocks carries a pump.fun sandwich, so the first hit can take a minute.</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="method">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <div>
+          <div class="label eyebrow">Method</div>
+          <h2>How LUNCH finds a sandwich.</h2>
+        </div>
+        <p class="lead">No guessing and no private data. Everything comes from public Solana transactions and is computed in your browser.</p>
+      </div>
+      <div class="steps reveal">
+        <div class="step">
+          <span class="n">Step 1</span>
+          <h3>Pull your swaps</h3>
+          <p>LUNCH reads your latest transactions and keeps the ones that bought or sold a token on pump.fun's bonding curve or PumpSwap.</p>
+          <svg viewBox="0 0 300 120" aria-hidden="true">
+            <g class="dg-row"><rect x="0" y="6" width="300" height="16" rx="2"/><rect x="0" y="30" width="300" height="16" rx="2"/><rect x="0" y="78" width="300" height="16" rx="2"/></g>
+            <g class="dg-you"><rect x="0" y="54" width="300" height="16" rx="2"/><rect x="0" y="102" width="300" height="16" rx="2"/></g>
+          </svg>
+        </div>
+        <div class="step">
+          <span class="n">Step 2</span>
+          <h3>Read the block</h3>
+          <p>For each swap it opens the block it landed in and looks at the transactions just before and just after yours on the same pool.</p>
+          <svg viewBox="0 0 300 120" aria-hidden="true">
+            <g class="dg-row"><rect x="0" y="0" width="300" height="14" rx="2"/><rect x="0" y="106" width="300" height="14" rx="2"/></g>
+            <g class="dg-out"><rect x="0.5" y="21.5" width="299" height="17" rx="2"/><rect x="0.5" y="81.5" width="299" height="17" rx="2"/></g>
+            <g class="dg-you"><rect x="0" y="51" width="300" height="18" rx="2"/></g>
+          </svg>
+        </div>
+        <div class="step">
+          <span class="n">Step 3</span>
+          <h3>Match the bot, price the damage</h3>
+          <p>One wallet buying before you and selling after you is a sandwich. LUNCH then replays your trade on the pool's reserves from before the bot moved them, and the gap is what you lost.</p>
+          <svg viewBox="0 0 300 120" aria-hidden="true">
+            <g class="dg-bot"><rect x="0" y="10" width="300" height="20" rx="2"/><rect x="0" y="90" width="300" height="20" rx="2"/></g>
+            <path class="dg-you" d="M2 50H196A6 6 0 0 0 196 60A6 6 0 0 0 196 70H2A2 2 0 0 1 0 68V52A2 2 0 0 1 2 50Z"/>
+            <path class="dg-gap" d="M214 60H298" />
+          </svg>
+        </div>
+      </div>
+      <div class="verify">
+        <svg width="28" height="28" viewBox="0 0 64 64" aria-hidden="true"><rect x="6" y="13" width="52" height="10" rx="1" fill="#efe8db"/><path d="M7 27H43A4.2 4.2 0 0 0 43 32A4.2 4.2 0 0 0 43 37H7A1 1 0 0 1 6 36V28A1 1 0 0 1 7 27Z" fill="#e6492f"/><rect x="6" y="41" width="52" height="10" rx="1" fill="#efe8db"/></svg>
+        <p>Every result shows the front-run, your trade and the back-run as Solscan links. If a number looks wrong, the transactions are one click away.</p>
+        <a class="btn btn-ghost btn-sm" href="#check">Run a check</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="token">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <div>
+          <div class="label eyebrow">$LUNCH</div>
+          <h2>The token behind the scanner.</h2>
+        </div>
+        <p class="lead">$LUNCH funds the tools that keep traders from feeding bots. Phase 1 is live on this page. The next two are being built, and each says plainly where it stands.</p>
+      </div>
+      <div class="roadmap reveal">
+        <div class="panel phase now">
+          <div class="head"><span class="label">Phase 1</span><span class="badge live">Live</span></div>
+          <h3>Diagnose and fix</h3>
+          <ul>
+            <li>Lunch Check for any wallet</li>
+            <li>Slippage Tuner for any pump.fun token</li>
+            <li>Live sandwich monitor (beta)</li>
+          </ul>
+        </div>
+        <div class="panel phase">
+          <div class="head"><span class="label">Phase 2</span><span class="badge">In development</span></div>
+          <h3>LUNCHBOX</h3>
+          <p>A protected buy button. Trades are sent through Jito with its don't-front marker set, so Jito bundles cannot place a buy ahead of yours. It cuts the attack surface. It cannot block bots that see your trade through other routes, and we will say so on the button.</p>
+        </div>
+        <div class="panel phase">
+          <div class="head"><span class="label">Phase 3</span><span class="badge">Planned</span></div>
+          <h3>Lunch money</h3>
+          <p>Creator fees fill a pot that goes back to the holders who lost the most to bots, verified by Lunch Check against on-chain data. Rules, epochs and amounts get published before the first payout.</p>
+        </div>
+      </div>
+      <div class="panel tok-facts">
+        <div><span class="label">Ticker</span><b>$LUNCH</b></div>
+        <div><span class="label">Chain</span><b>Solana</b></div>
+        <div><span class="label">Launch</span><b>pump.fun</b></div>
+        <div><span class="label">Contract</span><button type="button" id="caFact" aria-label="Copy contract address">—</button></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <a class="brand" href="#top" aria-label="LUNCH home">
+          <svg viewBox="0 0 64 64" aria-hidden="true"><rect x="6" y="13" width="52" height="10" rx="1" fill="#efe8db"/><path d="M7 27H43A4.2 4.2 0 0 0 43 32A4.2 4.2 0 0 0 43 37H7A1 1 0 0 1 6 36V28A1 1 0 0 1 7 27Z" fill="#e6492f"/><rect x="6" y="41" width="52" height="10" rx="1" fill="#efe8db"/></svg>
+          <b>LUNCH</b>
+        </a>
+        <p style="margin-top:16px">LUNCH reads public chain data and estimates losses from pool reserves. Estimates can be off for complex routes. Verify every result on-chain. Nothing here is financial advice.</p>
+      </div>
+      <div>
+        <span class="label">Tools</span>
+        <ul>
+          <li><a href="#check">Lunch Check</a></li>
+          <li><a href="#tuner">Slippage Tuner</a></li>
+          <li><a href="#monitor">Live monitor</a></li>
+        </ul>
+      </div>
+      <div>
+        <span class="label">Sources</span>
+        <ul>
+          <li><a href="https://cryptoslate.com/solana-sandwich-bots-took-29-7-million-before-costs-bitquery-estimates/" target="_blank" rel="noopener">Bitquery sandwich study ↗</a></li>
+          <li><a href="https://info.solscan.io/exploring-sandwiches-activity-leaderboard" target="_blank" rel="noopener">Solscan sandwich data ↗</a></li>
+          <li><a href="https://docs.jito.wtf/" target="_blank" rel="noopener">Jito docs ↗</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-base">
+      <span class="label">© LUNCH</span>
+      <span class="label">Built on public Solana data</span>
+    </div>
+  </div>
+</footer>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<div class="grain" aria-hidden="true"></div>
